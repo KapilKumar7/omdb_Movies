@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+  body{
+      background-color: black ;
+      color: white;
+      font-family: sans-serif;
+  }
+  #container{
+      margin-left: 100px;
+      margin-top: 100px;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+  }
+  #recomd{
+      background-color: rgb(126, 161, 76);
+      /* border: 1PX solid red; */
+      font-size: 35px;
+      width:max-content;
+      color: rgb(206, 206, 187);
+      border-radius: 10px;
+      
+      
+
+  }
+
+    </style>
+</head>
+<body>
+<h1>OMDB movie </h1>
+
+<form action="">
+<input id="film" type="text">
+<input type="submit">
+
+</form>
+
+<div id="container">
+
+ <img id="image" alt="">
+ <p id="title"></p>
+ <p id="release"></p>
+ <p id="imdb"></p>
+ <p id="hero"></p>
+ <p id="recomd"></p>
+</div>
+    
+    
+</body>
+</html>
+
+
+<script>
+   document.querySelector("form").addEventListener("submit",myApp)
+var film;
+function myApp() {
+    event.preventDefault()
+    
+   film= document.querySelector("#film").value
+
+  
+
+var url= "http://www.omdbapi.com/?apikey=c2130a4&t="+film
+
+fetch(url).then(function(res){
+    
+    return res.json()
+
+}).then(function(res){
+  let title=  document.getElementById("title").innerText=res.Title
+  let release=  document.getElementById("release").innerText=res.Year
+  let imdb=  document.getElementById("imdb").innerText=res.imdbRating
+  let hero=  document.getElementById("hero").innerText=res.Actors
+  let image=  document.getElementById("image").innerText=res.Poster
+
+    
+if(title != undefined && release !=undefined && imdb !=undefined && hero !=undefined  && image!= undefined && (Number(res.imdbRating)< 8.5 ) ){
+    document.getElementById("title").innerText=res.Title
+    document.getElementById("release").innerText=res.Year
+    document.getElementById("imdb").innerText=res.imdbRating
+    document.getElementById("hero").innerText=res.Actors
+    document.getElementById("image").src=res.Poster
+    document.getElementById("recomd").innerText=""
+}else if(Number(res.imdbRating)> 8.5 ){
+    document.getElementById("title").innerText=res.Title
+    document.getElementById("release").innerText=res.Year
+    document.getElementById("imdb").innerText=res.imdbRating
+    document.getElementById("hero").innerText=res.Actors
+    document.getElementById("image").src=res.Poster
+    document.getElementById("recomd").innerText="Recommended"
+    console.log(">8.5")
+
+}
+else  {
+    document.getElementById("image").src="https://media3.giphy.com/media/C21GGDOpKT6Z4VuXyn/giphy.gif?cid=ecf05e474owpn8ihn7ikk4uow6gal71125ta5zav7dyhr2rq&rid=giphy.gif&ct=g"
+    document.getElementById("title").innerText=""
+    document.getElementById("release").innerText=""
+    document.getElementById("imdb").innerText=""
+    document.getElementById("hero").innerText=""
+    document.getElementById("recomd").innerText=""
+}
+
+}).catch(function(err){
+
+    console.log("hi")
+})
+  
+}
+
+
+   
+
+
+
+
+
+
+
+</script>
